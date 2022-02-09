@@ -9,8 +9,8 @@ jobs:
     uses: cakes-management-system/ci-cd/.github/workflows/build-with-maven.yml@master
     with:
       display-name: Cakes Service
-      publish: true
       sonar: true
       sonar-project-key: cakes-management-system_cakes-service
+      publish: true
     secrets:
       sonar-token: ${{ secrets.SONAR_TOKEN }}
