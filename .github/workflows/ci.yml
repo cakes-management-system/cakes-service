@@ -1,15 +1,16 @@
-name: CI CMS starter
+name: CI Cakes Service
 
 on:
   push:
     branches: [ master ]
 
 jobs:
-  build-cms-starter:
+  build:
     uses: cakes-management-system/ci-cd/.github/workflows/build-with-maven.yml@master
     with:
       display-name: Cakes Service
       publish: true
       sonar: true
+      sonar-project-key: cakes-management-system_cakes-service
     secrets:
       sonar-token: ${{ secrets.SONAR_TOKEN }}
