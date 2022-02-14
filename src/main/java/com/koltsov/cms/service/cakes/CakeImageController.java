@@ -30,8 +30,8 @@ public class CakeImageController {
                 .orElse(ResponseEntity.noContent().build());
     }
 
-    @PutMapping
-    public ResponseEntity<Void> uploadImage(@PathVariable Long id, @RequestParam("image") MultipartFile image) throws IOException {
+    @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Void> uploadImage(@PathVariable Long id, @RequestPart MultipartFile image) throws IOException {
         Cake cake = cakeService.getById(id);
         cakeStore.setContent(cake, image.getInputStream());
         cake.setImageMimeType(image.getContentType());
