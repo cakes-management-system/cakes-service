@@ -1,19 +1,19 @@
 package com.koltsov.cms.service.cakes;
 
 import com.koltsov.cms.starter.data.IdAble;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.Hibernate;
+import org.springframework.content.commons.annotations.ContentId;
+import org.springframework.content.commons.annotations.ContentLength;
 
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.UUID;
 
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
+@NoArgsConstructor
 @Table(name = "cakes")
 @Entity
 public class Cake implements IdAble<Long> {
@@ -24,6 +24,14 @@ public class Cake implements IdAble<Long> {
     private Long id;
 
     private String name;
+
+    @ContentId
+    private UUID imageId;
+
+    @ContentLength
+    private Long imageLength;
+
+    private String imageMimeType;
 
     @Override
     public boolean equals(Object o) {

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static com.koltsov.cms.service.cakes.CakeHelper.createCake;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -18,15 +19,9 @@ class CakeServiceTest {
         String expectedName = "Медовик";
         Cake to = createCake("Наполеон");
         Cake from = createCake(expectedName);
+
         cakeService.updateFields(to, from);
 
         assertEquals(expectedName, to.getName());
-    }
-
-    private Cake createCake(String name) {
-        Cake cake = new Cake();
-        cake.setId(1L);
-        cake.setName(name);
-        return cake;
     }
 }
