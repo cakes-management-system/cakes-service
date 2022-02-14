@@ -1,41 +1,34 @@
 package com.koltsov.cms.service.cakes;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("api/v1/cakes/{id}/image")
 public class CakeImageController {
 
-    private final CakeService cakeService;
-    private final CakeStore cakeStore;
+    private final CakeImageService cakeImageService;
 
     @GetMapping
-    public ResponseEntity<InputStreamResource> getImage(@PathVariable Long id) {
-        Cake cake = cakeService.getById(id);
-        return Optional.ofNullable(cakeStore.getContent(cake))
-                .map(InputStreamResource::new)
-                .map(inputStreamResource -> ResponseEntity.ok()
-                        .contentLength(cake.getImageLength())
-                        .contentType(MediaType.parseMediaType(cake.getImageMimeType()))
-                        .body(inputStreamResource))
-                .orElse(ResponseEntity.noContent().build());
+    public ResponseEntity<Resource> getImage(@PathVariable Long id) {
+        Image image = cakeImageService.getImage(id);
+        return ResponseEntity.ok()
+                .contentLength(image.getMetadata().getLength())
+                .contentType(MediaType.parseMediaType(image.getMetadata().getMimoType()))
+                .body(image.getContent());
     }
 
+    @ResponseStatus(HttpStatus.ACCEPTED)
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Void> uploadImage(@PathVariable Long id, @RequestPart MultipartFile image) throws IOException {
-        Cake cake = cakeService.getById(id);
-        cakeStore.setContent(cake, image.getInputStream());
-        cake.setImageMimeType(image.getContentType());
-        cakeService.update(id, cake);
-        return ResponseEntity.accepted().build();
+    public void uploadImage(@PathVariable Long id, @RequestPart MultipartFile image) throws IOException {
+        cakeImageService.uploadImage(id, image);
     }
 }
