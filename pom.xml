@@ -17,6 +17,7 @@
 
     <properties>
         <testcontainers.version>1.16.3</testcontainers.version>
+        <spring-content.version>2.0.0</spring-content.version>
     </properties>
 
     <distributionManagement>
@@ -72,6 +73,12 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.paulcwarren</groupId>
+            <artifactId>spring-content-jpa-boot-starter</artifactId>
+            <version>${spring-content.version}</version>
         </dependency>
 
         <dependency>
